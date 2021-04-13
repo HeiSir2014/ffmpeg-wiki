@@ -10,12 +10,19 @@ FFmpeg Command wiki
     ffmpeg -hwaccels
     ```
     >   Hardware acceleration methods:
-        cuda
-        dxva2
-        qsv
-        d3d11va
-        opencl
-        vulkan
+    >   
+    >   cuda
+    >   
+    >   dxva2
+    >   
+    >   qsv
+    >   
+    >   d3d11va
+    >   
+    >   opencl
+    >   
+    >   vulkan
+    >   
 
     查看支持的所有编码器
     ```bash
@@ -28,8 +35,11 @@ FFmpeg Command wiki
     ```
 
 2. 使用以上这些hw硬解视频，测试一个1分钟的MP4文件解码和编码。
+
     显卡：NVIDIA GTX1660ti
+    
     CPU：Intel(R) Core(TM) i5-9400 CPU @ 2.90GHz
+    
     系统：Win10
 
     ---
@@ -76,7 +86,7 @@ FFmpeg Command wiki
     | d3d11va   | 5.62          |
     | cuda      | 4.35          |
     | cuvid     | 3.50          |
-    | qsv       | 2.29          |
+    | `qsv`       | `2.29`          |
     | opencl    | 2.55          |
     | vulkan    | 3.09          |
 
