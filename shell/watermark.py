@@ -69,9 +69,34 @@ if __name__ == '__main__':
 
     if vfStr is None:
         exit()
+    
+    mode = -1
+    while (mode <= 0 or mode > 3):
+        mode = int(input("请输入水印显示模式：\n1:始终显示\n2: 间隔显示\n3: 自定义显示时间\n"))
+    if mode == 2:
+        t = int(input("请输入间隔时长:"))
+        if t > 0:
+            vfStr += ":enable='lt(mod(t,{}),{})'".format(t*2,t)
+    elif mode == 3:
+        _btw = []
+        while True:
+            _str = input("请输入自定义显示时间：格式:10|20 从第10秒到第20秒显示，直接回车结束添加\n")
+            if _str != '' and len(_str.split('|')) == 2:
+                _arr= _str.split('|')
+                _start = int(_arr[0])
+                _stop = int(_arr[1])
+                if _stop > _start:
+                    _btw.append("between(t,{},{})".format(_start,_stop))
+            elif _str == '':
+                break
+        if len(_btw) > 0:
+            vfStr += ":enable='{}'".format(" + ".join(_btw))    
+    #  隔30秒显示30秒
+    # vfStr += ":enable='lt(mod(t,60),30)'"
 
-    #  跑马灯效果 隔30秒显示30秒
-    vfStr += ":enable='lt(mod(t,60),30)'"
+    #  控制什么时候出现，第几秒开始，第几秒结束 gte 大于， lt 小于
+    # 50秒开始 显示10秒 65显示 75停止显示
+    
     _cwd, filename = os.path.split(
         os.path.abspath(os.path.realpath(sys.argv[0])))
     os.chdir(_cwd)
@@ -118,8 +143,8 @@ if __name__ == '__main__':
             bkg= 'bkg.mp3' if os.path.exists('bkg.mp3') else ('bkg.wav' if os.path.exists('bkg.wav') else 'bkg.m4a')
             out = 'bkg_out.wav'
             # '-shortest',
-            subprocess.run(["ffmpeg.exe", "-hwaccel", "dxva2", "-i", "{}\\{}".format(srcDir, file), "-i", out, 
+            subprocess.run(["ffmpeg.exe", "-hwaccel", "qsv", "-i", "{}\\{}".format(srcDir, file), "-i", out, 
              "-vf", vfStr, '-filter_complex', '[0:a][1:a]amix', '-c:v', 'h264_qsv', '-b:v', '{}k'.format(bit_rate), "-y", "{}\\{}".format(dstDir, file)], cwd=_cwd)
         else:
-            subprocess.run(["ffmpeg.exe", "-hwaccel", "dxva2", "-i", "{}\\{}".format(srcDir, file), "-vf", vfStr, '-c:v',
+            subprocess.run(["ffmpeg.exe", "-hwaccel", "qsv", "-i", "{}\\{}".format(srcDir, file), "-vf", vfStr, '-c:v',
                            'h264_qsv', '-c:a', 'copy', '-b:v', '{}k'.format(bit_rate), "-y", "{}\\{}".format(dstDir, file)], cwd=_cwd)
