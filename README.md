@@ -160,7 +160,9 @@ FFmpeg Command wiki
     | h264 cpu  |  libx264 | 40.36          |
 
     > 硬解测试 Python脚本 [Python3]
-    [ffmpeg-hw.py](./shell/ffmpeg-hw.py)
+    > 
+    > [ffmpeg-hw.py](./shell/ffmpeg-hw.py)
+    > 
 
 
 ## 视频添加图片水印和背景音乐
@@ -168,5 +170,7 @@ FFmpeg Command wiki
 添加图片水印主要使用的video filter的功能，参考：[FilteringGuide](https://trac.ffmpeg.org/wiki/FilteringGuide)
 
 > Python脚本 [Python3]
-[ffmpeg-hw.py](./shell/watermark.py)
+> 
+> [watermark.py](./shell/watermark.py)
+> 
 
