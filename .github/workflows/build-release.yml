@@ -1,0 +1,40 @@
+
+name: ffmpeg-scripts
+
+on:
+  push:
+    tags:
+      - v*.*.*
+
+jobs:
+  build:
+    runs-on: ${{ matrix.os }}
+    
+    strategy:
+      matrix:
+        os: [windows-latest, macos-latest, ubuntu-latest]
+        python-version: [3.8]
+
+    - uses: actions/checkout@v2
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v2
+      with:
+        python-version: ${{ matrix.python-version }}
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install pyinstaller
+        if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+    - name: Package
+      run: |
+        pyinstaller -F shell/ffmpeg-hw.py
+        pyinstaller -F shell/watermark.py
+    - name: Upload artifact
+      uses: actions/upload-artifact@v2
+      with:
+        name: dist
+        path: |
+          dist/*
+      env:
+        GITHUB_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+        GH_TOKEN: ${{ secrets.ACCESS_TOKEN }}
