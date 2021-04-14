@@ -149,15 +149,15 @@ FFmpeg Command wiki
 
     | HWAccell  | encoder | TimeSpent(s)  |
     |   -       |   -           |   -           |
-    | dxva2     |  h264_nvenc | 5.09          |
-    | d3d11va   |  h264_nvenc | 5.62          |
-    | cuda      |  h264_nvenc | 7.27          |
-    | cuvid     |  h264_nvenc | 5.79          |
+    | dxva2     |  h264_nvenc | 7.46          |
+    | d3d11va   |  h264_nvenc | 7.56          |
+    | cuda      |  h264_nvenc | 6.49          |
+    | cuvid     |  h264_nvenc | 5.76          |
     | `qsv`       |  `h264_nvenc` | `5.78`          |
     | opencl    |  h264_nvenc | 5.89          |
     | vulkan    |  h264_nvenc | 6.36          |
-    | qsv       |  libx264 | 40.62          |
-    | h264 cpu  |  libx264 | 40.36          |
+    | qsv       |  libx264 | 37.62          |
+    | h264 cpu  |  libx264 | 37.55          |
 
     > 硬解测试 Python脚本 [Python3]
     > 
