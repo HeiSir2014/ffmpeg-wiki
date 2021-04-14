@@ -18,6 +18,8 @@ if __name__ == '__main__':
         print("{} 目录不存在，或者不是一个目录".format(srcDir))
         exit(0)
 
+    ffmpeg_shell = "ffmpeg" if os.sys.platform == "win32" else "./ffmpeg"
+
     dstDir = srcDir + '-watermark'
     not os.path.exists(dstDir) and os.mkdir(dstDir)
     files = os.listdir(srcDir)
@@ -119,9 +121,9 @@ if __name__ == '__main__':
                         fo.write('file \'slient.wav\'\n')
                 fo.close()
             # 转换不同格式的背景音乐 统一Wav 短整数 | 48k | 双声道格式
-            subprocess.run(["ffmpeg.exe", "-i",
+            subprocess.run([ffmpeg_shell, "-i",
                            bkg,"-f","wav","-acodec", "pcm_s16le","-ar","48000","-ac","2", "-y", inputWav], cwd=_cwd)
-            subprocess.run(["ffmpeg.exe", "-f", "concat", "-i",
+            subprocess.run([ffmpeg_shell, "-f", "concat", "-i",
                            "list.txt", "-y", out], cwd=_cwd)
             os.remove("list.txt")
             os.remove("bkg_input.wav")
@@ -143,8 +145,8 @@ if __name__ == '__main__':
             bkg= 'bkg.mp3' if os.path.exists('bkg.mp3') else ('bkg.wav' if os.path.exists('bkg.wav') else 'bkg.m4a')
             out = 'bkg_out.wav'
             # '-shortest',
-            subprocess.run(["ffmpeg.exe", "-hwaccel", "qsv", "-i", "{}\\{}".format(srcDir, file), "-i", out, 
+            subprocess.run([ffmpeg_shell, "-hwaccel", "qsv", "-i", "{}\\{}".format(srcDir, file), "-i", out, 
              "-vf", vfStr, '-filter_complex', '[0:a][1:a]amix', '-c:v', 'h264_qsv', '-b:v', '{}k'.format(bit_rate), "-y", "{}\\{}".format(dstDir, file)], cwd=_cwd)
         else:
-            subprocess.run(["ffmpeg.exe", "-hwaccel", "qsv", "-i", "{}\\{}".format(srcDir, file), "-vf", vfStr, '-c:v',
+            subprocess.run([ffmpeg_shell, "-hwaccel", "qsv", "-i", "{}\\{}".format(srcDir, file), "-vf", vfStr, '-c:v',
                            'h264_qsv', '-c:a', 'copy', '-b:v', '{}k'.format(bit_rate), "-y", "{}\\{}".format(dstDir, file)], cwd=_cwd)
